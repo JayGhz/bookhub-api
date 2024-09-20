@@ -66,8 +66,8 @@ public class AdminCategoryController {
 
     // Metodo para eliminar una categoria
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable("id") Integer id) {
+    public ResponseEntity<Category> deleteCategory(@PathVariable("id") Integer id) {
         adminCategoryService.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
     }
 }
