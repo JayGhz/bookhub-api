@@ -3,9 +3,11 @@ package com.jayghz.bookhub.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jayghz.bookhub.dto.AuthorDTO;
 import com.jayghz.bookhub.model.entity.Author;
 import com.jayghz.bookhub.service.AdminAuthorService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -20,44 +22,43 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("admin/authors")
 public class AdminAuthorController {
+
     private final AdminAuthorService adminAuthorService;
 
     @GetMapping
-    public ResponseEntity<List<Author>> getAllAuthors() {
-        List<Author> authors = adminAuthorService.getAll();
-        return new ResponseEntity<List<Author>>(authors, HttpStatus.OK);
-    }
-    
-
-    @GetMapping("/paginate")
-    public ResponseEntity<Page<Author>> paginateAuthors(
-            @PageableDefault(size = 5, sort = "firstName") Pageable pageable) {
-        Page<Author> authors = adminAuthorService.paginate(pageable);
-        return new ResponseEntity<Page<Author>>(authors, HttpStatus.OK);
-
+    public ResponseEntity<List<AuthorDTO>> listAll() {
+        List<AuthorDTO> authors = adminAuthorService.getAll();
+        return new ResponseEntity<>(authors, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthorById(@PathVariable("id") Integer id) {
-        Author author = adminAuthorService.findById(id);
-        return new ResponseEntity<Author>(author, HttpStatus.OK);
+    @GetMapping("/page")
+    public ResponseEntity<Page<AuthorDTO>> paginate(@PageableDefault(size = 5, sort = "firstName")
+                                                     Pageable pageable) {
+        Page<AuthorDTO> page = adminAuthorService.paginate(pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
-        Author newAuthor = adminAuthorService.create(author);
-        return new ResponseEntity<Author>(newAuthor, HttpStatus.CREATED);
+    public ResponseEntity<AuthorDTO> create(@Valid @RequestBody AuthorDTO authorDTO) {
+        AuthorDTO createdAuthor = adminAuthorService.create(authorDTO);
+        return new ResponseEntity<>(createdAuthor, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AuthorDTO> getById(@PathVariable Integer id) {
+        AuthorDTO author = adminAuthorService.findById(id);
+        return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Author> updateAuthor(@PathVariable("id") Integer id, @RequestBody Author author) {
-        Author updatedAuthor = adminAuthorService.update(id, author);
-        return new ResponseEntity<Author>(updatedAuthor, HttpStatus.OK);
+    public ResponseEntity<AuthorDTO> update(@PathVariable Integer id,@Valid @RequestBody AuthorDTO authorDTO) {
+        AuthorDTO updatedAuthor = adminAuthorService.update(id, authorDTO);
+        return new ResponseEntity<>(updatedAuthor, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Author> deleteAuthor(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         adminAuthorService.delete(id);
-        return new ResponseEntity<Author>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
