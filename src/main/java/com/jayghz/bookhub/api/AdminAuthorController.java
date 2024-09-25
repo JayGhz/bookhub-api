@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jayghz.bookhub.dto.AuthorDTO;
-import com.jayghz.bookhub.model.entity.Author;
 import com.jayghz.bookhub.service.AdminAuthorService;
 
 import jakarta.validation.Valid;
