@@ -25,9 +25,9 @@ public class Collection {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_collection_users"))
-    private User user;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "fk_collection_customers"))
+    private Customer customer;
 
     @JsonIgnore
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)

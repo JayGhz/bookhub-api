@@ -22,11 +22,11 @@ public class Purchase {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
-    private PaymentStatus status;
+    private PaymentStatus paymentStatus;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_purchase_users"))
-    private User user;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_purchase_customers"))
+    private Customer customer;
 
     // Relacionar la entidad Purchase con la entidad PurchaseItem
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
