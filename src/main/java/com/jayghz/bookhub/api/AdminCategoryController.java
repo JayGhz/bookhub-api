@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jayghz.bookhub.dto.CategoryDTO;
-import com.jayghz.bookhub.model.entity.Category;
 import com.jayghz.bookhub.service.AdminCategoryService;
 
 import jakarta.validation.Valid;
