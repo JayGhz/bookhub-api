@@ -1,5 +1,7 @@
 package com.jayghz.bookhub.model.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,7 +21,7 @@ public class CollectionBook {
     private Integer collection;
 
     @Column(name = "added_at", nullable = false)
-    private String addedAt;
+    private LocalDateTime addedDate;
 }
 
 // Nota: Si se desea generar un atabl compuest solo de las llaves foraneas, se podria usar la anotacion @ManyToMany

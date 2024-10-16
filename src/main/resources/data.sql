@@ -29,8 +29,8 @@ INSERT INTO books (title, slug, description, price, cover_path, file_path, creat
     ON CONFLICT DO NOTHING;
 
 
--- Insertar datos de prueba en la tabla users
-INSERT INTO users (first_name, last_name, full_name, email, password, created_at, updated_at, role)
+-- Insertar datos de prueba en la tabla customers
+INSERT INTO customers (first_name, last_name, full_name, email, password, created_at, updated_at, role)
 VALUES
     ('John', 'Doe', 'John Doe', 'johndoe@example.com', 'password123', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'USER'),
     ('Jane', 'Smith', 'Jane Smith', 'janesmith@example.com', 'password123', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ADMIN'),

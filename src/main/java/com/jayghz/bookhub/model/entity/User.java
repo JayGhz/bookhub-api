@@ -1,14 +1,13 @@
 package com.jayghz.bookhub.model.entity;
 
+import com.jayghz.bookhub.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-import com.jayghz.bookhub.model.enums.Role;
-
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "customers")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +31,7 @@ public class User {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;

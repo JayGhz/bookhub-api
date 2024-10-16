@@ -1,0 +1,6 @@
+{
+    "symbols.files.associations": {
+        "*.properties": "gear"
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
