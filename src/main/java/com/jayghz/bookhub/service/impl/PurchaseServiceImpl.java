@@ -34,7 +34,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         // Convertir PurchaseCreateDTO a Purchase
         Purchase purchase = purchaseMapper.toPurchaseCreateDTO(purchaseCreateDTO);
 
-        User customer = userRepository.findById(purchaseCreateDTO.getUserId())
+        User customer = userRepository.findById(purchaseCreateDTO.getCustomerId())
             .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         // Establecer la fecha de creación de la compra
@@ -43,7 +43,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setPaymentStatus(PaymentStatus.PENDING);
 
         Float total = purchase.getItems().stream()
-            .map(item -> item.getQuantity() * item.getBook().getPrice())
+            .map(item -> item.getQuantity() * item.getPrice())
             .reduce(0.0f, Float::sum);
         purchase.setTotal(total);
 

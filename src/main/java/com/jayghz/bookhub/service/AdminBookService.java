@@ -6,7 +6,6 @@ import org.springframework.data.domain.*;
 
 import com.jayghz.bookhub.dto.BookCreateUpdateDTO;
 import com.jayghz.bookhub.dto.BookDetailsDTO;
-import com.jayghz.bookhub.model.entity.Book;
 
 public interface AdminBookService {
     List<BookDetailsDTO> findAll();

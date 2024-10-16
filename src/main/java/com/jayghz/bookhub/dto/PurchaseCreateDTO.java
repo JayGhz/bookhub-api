@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class PurchaseCreateDTO { // DTO para la creación de una compra
     private Float total;
-    private Integer userId;
+    private Integer customerId;
     private List<PurchaseItemCreateDTO> items;
 }

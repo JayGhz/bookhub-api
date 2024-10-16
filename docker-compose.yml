@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.1'
 
 services:
   postgres-db:
@@ -11,6 +11,4 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - bookhub-network
+      - ./postgres:/var/lib/postgresql/data

@@ -12,7 +12,6 @@ public class PurchaseDTO { // DTO para la visualización de una compra
 
     private Integer id;
     private Float total;
-    private Integer userId;
     private LocalDateTime createdAt;
     private PaymentStatus paymentStatus;
     private String customerName;
