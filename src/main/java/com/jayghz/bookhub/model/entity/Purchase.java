@@ -26,7 +26,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_purchase_customers"))
-    private Customer customer;
+    private User customer;
 
     // Relacionar la entidad Purchase con la entidad PurchaseItem
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
