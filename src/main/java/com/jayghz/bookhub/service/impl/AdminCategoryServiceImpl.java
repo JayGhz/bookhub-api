@@ -1,19 +1,22 @@
 package com.jayghz.bookhub.service.impl;
 
-public class AdminCategoryServiceImpl {
-
-<<<<<<< HEAD
-}
-=======
 import com.jayghz.bookhub.dto.CategoryDTO;
 import com.jayghz.bookhub.exception.*;
 import com.jayghz.bookhub.mapper.CategoryMapper;
 import com.jayghz.bookhub.model.entity.Category;
 import com.jayghz.bookhub.repository.CategoryRepository;
 import com.jayghz.bookhub.service.AdminCategoryService;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor // Notacion de Lombok para inyectar dependencias
@@ -23,8 +26,8 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public List<CategoryDTO> getAll() {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream()
@@ -32,15 +35,15 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public Page<CategoryDTO> paginate(Pageable pageable) {
         Page<Category> categories = categoryRepository.findAll(pageable);
         return categories.map(categoryMapper::toDTO);
     }
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public CategoryDTO findById(Integer id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("La categoría con ID " + id + " no fue encontrada"));
@@ -92,5 +95,5 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("La categoría con ID " + id + " no fue encontrada"));
         categoryRepository.delete(category);
     }
+
 }
->>>>>>> develop

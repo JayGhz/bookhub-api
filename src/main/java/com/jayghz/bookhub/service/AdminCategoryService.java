@@ -1,9 +1,5 @@
 package com.jayghz.bookhub.service;
 
-<<<<<<< HEAD
-public interface AdminCategoryService {
-
-=======
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -18,5 +14,4 @@ public interface AdminCategoryService {
     CategoryDTO findById(Integer id);
     CategoryDTO update(Integer id, CategoryDTO updateCategoryDTO);
     void delete(Integer id);
->>>>>>> develop
 }

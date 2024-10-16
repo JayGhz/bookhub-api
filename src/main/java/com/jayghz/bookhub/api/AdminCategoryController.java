@@ -1,7 +1,5 @@
 package com.jayghz.bookhub.api;
 
-<<<<<<< HEAD
-=======
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,12 +22,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/admin/categories")
->>>>>>> develop
 public class AdminCategoryController {
 
-<<<<<<< HEAD
-}
-=======
+    private final AdminCategoryService adminCategoryService;
+
     // Metodo para listar todas las categorias
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
@@ -75,4 +71,3 @@ public class AdminCategoryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
->>>>>>> develop
