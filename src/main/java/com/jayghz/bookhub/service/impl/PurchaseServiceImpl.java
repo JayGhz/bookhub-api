@@ -45,12 +45,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         // Establecer el estado de pago de la compra
         purchase.setPaymentStatus(PaymentStatus.PENDING);
 
-        purchase.getItems().forEach(item -> {
-            Book book = bookRepository.findById(item.getBook().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
-            item.setBook(book);
-            item.setPurchase(purchase);
-        });
+
 
         Float total = purchase.getItems().stream()
             .map(item -> item.getQuantity() * item.getPrice())
