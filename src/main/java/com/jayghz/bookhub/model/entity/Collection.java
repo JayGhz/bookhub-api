@@ -27,7 +27,7 @@ public class Collection {
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "fk_collection_customers"))
-    private Customer customer;
+    private User customer;
 
     @JsonIgnore
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
