@@ -10,9 +10,11 @@ import com.jayghz.bookhub.dto.PurchaseCreateDTO;
 import com.jayghz.bookhub.dto.PurchaseDTO;
 import com.jayghz.bookhub.exception.ResourceNotFoundException;
 import com.jayghz.bookhub.mapper.PurchaseMapper;
+import com.jayghz.bookhub.model.entity.Book;
 import com.jayghz.bookhub.model.entity.Purchase;
 import com.jayghz.bookhub.model.entity.User;
 import com.jayghz.bookhub.model.enums.PaymentStatus;
+import com.jayghz.bookhub.repository.BookRepository;
 import com.jayghz.bookhub.repository.PurchaseRepository;
 import com.jayghz.bookhub.repository.UserRepository;
 import com.jayghz.bookhub.service.PurchaseService;
@@ -26,6 +28,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final UserRepository userRepository;
     private final PurchaseMapper purchaseMapper;
+    private final BookRepository bookRepository;
 
     @Override
     @Transactional
@@ -41,6 +44,13 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setCreatedAt(LocalDateTime.now());
         // Establecer el estado de pago de la compra
         purchase.setPaymentStatus(PaymentStatus.PENDING);
+
+        purchase.getItems().forEach(item -> {
+            Book book = bookRepository.findById(item.getBook().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+            item.setBook(book);
+            item.setPurchase(purchase);
+        });
 
         Float total = purchase.getItems().stream()
             .map(item -> item.getQuantity() * item.getPrice())
