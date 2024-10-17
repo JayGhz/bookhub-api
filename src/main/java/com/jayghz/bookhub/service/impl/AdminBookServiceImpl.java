@@ -31,7 +31,7 @@ public class AdminBookServiceImpl implements AdminBookService {
     private final AuthorRepository authorRepository;
     private final BookMapper bookMapper;  
 
-     @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     @Override
     public List<BookDetailsDTO> findAll() {
         List<Book> books= bookRepository.findAll();

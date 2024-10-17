@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin/categories")
 public class AdminCategoryController {
-    // Inyeccion de la interfaz AdminCategoryService para que el controlador no
-    // dependa directamente de la implementacion
+
     private final AdminCategoryService adminCategoryService;
 
     // Metodo para listar todas las categorias
