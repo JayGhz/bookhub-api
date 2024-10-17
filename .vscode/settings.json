@@ -3,5 +3,6 @@
         "*.properties": "gear"
     },
     "java.configuration.updateBuildConfiguration": "interactive",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "maven.view": "flat"
 }
