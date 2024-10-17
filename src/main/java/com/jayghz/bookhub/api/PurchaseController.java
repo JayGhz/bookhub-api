@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jayghz.bookhub.dto.PurchaseCreateDTO;
 import com.jayghz.bookhub.dto.PurchaseDTO;
+import com.jayghz.bookhub.dto.PurchaseReportDTO;
 import com.jayghz.bookhub.model.entity.Purchase;
 import com.jayghz.bookhub.service.PurchaseService;
 
@@ -40,5 +41,11 @@ public class PurchaseController {
     public ResponseEntity<List<PurchaseDTO>> getPurchasesHistory(@PathVariable Integer userId) {
         List<PurchaseDTO> purchaseHistory = purchaseService.getPurchasesHistoryByUserId(userId);
         return ResponseEntity.ok(purchaseHistory);
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<List<PurchaseReportDTO>> getPurchasesReport() {
+        List<PurchaseReportDTO> reports = purchaseService.getPurchasesReportByDate();
+        return ResponseEntity.ok(reports);
     }
 }
