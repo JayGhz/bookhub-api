@@ -23,16 +23,13 @@ public class PurchaseMapper {
 
     }
 
-    // Convertir PurchaseCreateDTO a Purchase (Crear una compra)
-    public Purchase toPurchaseCreateDTO(PurchaseCreateDTO purchaseDTO) {
+    public Purchase toPurchaseEntity(PurchaseCreateDTO purchaseDTO) {
         Purchase purchase = modelMapper.map(purchaseDTO, Purchase.class);
 
-        // Mapear manualmente el cliente
-        User customer = new User();
-        customer.setId(purchaseDTO.getCustomerId());
-        purchase.setCustomer(customer);
+        User user = new User();
+        user.setId(purchaseDTO.getCustomerId());
+        purchase.setUser(user);
 
-        // Mapear manualmente los items de la compra
         purchase.setItems(purchaseDTO.getItems().stream()
                 .map(this::toPurchaseItemEntity)
                 .toList());
@@ -43,11 +40,7 @@ public class PurchaseMapper {
     // Convertir Purchase a PurchaseDTO (Mostrar una compra)
     public PurchaseDTO toPurchaseDTO(Purchase purchase) {
         PurchaseDTO purchaseDTO = modelMapper.map(purchase, PurchaseDTO.class);
-
-        // Mapear manualmente el nombre del cliente
-        purchaseDTO.setCustomerName(purchase.getCustomer().getFirstName() + " " + purchase.getCustomer().getLastName());
-
-        // Mapear manualmente los items de la compra
+        purchaseDTO.setCustomerName(purchase.getUser().getCustomer().getFirstName() + " " + purchase.getUser().getCustomer().getLastName());
         purchaseDTO.setItems(purchase.getItems().stream()
                 .map(this::toPurchaseItemDTO)
                 .toList());

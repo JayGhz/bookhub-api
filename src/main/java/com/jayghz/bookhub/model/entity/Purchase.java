@@ -25,8 +25,8 @@ public class Purchase {
     private PaymentStatus paymentStatus;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_purchase_customers"))
-    private User customer;
+    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_purchase_user"))
+    private User user;
 
     // Relacionar la entidad Purchase con la entidad PurchaseItem
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)

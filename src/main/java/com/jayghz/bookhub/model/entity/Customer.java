@@ -1,26 +1,26 @@
 package com.jayghz.bookhub.model.entity;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "authors")
-public class Author {
+@Table(name = "customers")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name= "first_name", nullable = false, length = 50)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "bio", columnDefinition = "TEXT")
-    private String bio;
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -31,4 +31,5 @@ public class Author {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    
 }
