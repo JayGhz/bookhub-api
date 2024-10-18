@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.jayghz.bookhub.dto.BookCreateUpdateDTO;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/admin/books")
+@PreAuthorize("hasRole('ADMIN', 'AUTHOR')")
 public class AdminBookController {
 private final AdminBookService adminBookService;
 

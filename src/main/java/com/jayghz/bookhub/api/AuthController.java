@@ -3,9 +3,10 @@ package com.jayghz.bookhub.api;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.jayghz.bookhub.dto.AuthResponseDTO;
+import com.jayghz.bookhub.dto.LoginDTO;
 import com.jayghz.bookhub.dto.UserProfileDTO;
 import com.jayghz.bookhub.dto.UserRegisterDTO;
-import com.jayghz.bookhub.model.entity.Customer;
 import com.jayghz.bookhub.service.UserService;
 
 import jakarta.validation.Valid;
@@ -29,5 +30,12 @@ public class AuthController  {
     public ResponseEntity<UserProfileDTO> registerAuthor(@Valid @RequestBody UserRegisterDTO user) {
         UserProfileDTO newUser = userService.registerAuthor(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+    
+    // Login
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO user) {
+        AuthResponseDTO authResponse = userService.login(user);
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 }
