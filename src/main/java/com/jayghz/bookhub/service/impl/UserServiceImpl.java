@@ -1,9 +1,14 @@
 package com.jayghz.bookhub.service.impl;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.*;
 
+import com.jayghz.bookhub.dto.AuthResponseDTO;
+import com.jayghz.bookhub.dto.LoginDTO;
 import com.jayghz.bookhub.dto.UserProfileDTO;
 import com.jayghz.bookhub.dto.UserRegisterDTO;
 import com.jayghz.bookhub.exception.*;
@@ -11,6 +16,8 @@ import com.jayghz.bookhub.mapper.UserMapper;
 import com.jayghz.bookhub.model.entity.*;
 import com.jayghz.bookhub.model.enums.ERole;
 import com.jayghz.bookhub.repository.*;
+import com.jayghz.bookhub.security.TokenProvider;
+import com.jayghz.bookhub.security.UserPrincipal;
 import com.jayghz.bookhub.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +33,9 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder; // Encriptador de contraseñas
     private final UserMapper userMapper;
+
+    private final AuthenticationManager authenticationManager;
+    private final TokenProvider tokenProvider;
 
     @Transactional
     @Override
@@ -128,5 +138,22 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
         return userMapper.toUserProfileDTO(savedUser);
+    }
+
+    @Override
+    public AuthResponseDTO login(LoginDTO loginDTO) {
+        // Autenticar al usuario usando AuthenticationManager
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+       
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        User user = userPrincipal.getUser();
+
+        // Generar un token JWT
+        String token = tokenProvider.createAccessToken(authentication);
+
+        AuthResponseDTO authResponseDTO = userMapper.toAuthResponseDTO(user, token);
+
+        return authResponseDTO;
     }
 }

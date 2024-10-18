@@ -12,6 +12,7 @@ import com.jayghz.bookhub.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/purchases")
+@PreAuthorize("hasRole('CUSTOMER')")
 @RequiredArgsConstructor
 public class PurchaseController {
     private final PurchaseService purchaseService;

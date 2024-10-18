@@ -3,6 +3,7 @@ package com.jayghz.bookhub.api;
 import java.util.List;
 
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.jayghz.bookhub.model.entity.Book;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/collections-books")
+@PreAuthorize("hasRole('ADMIN, CUSTOMER')")
 public class CollectionBookController {
     private final CollectionBookService collectionBookService;
 

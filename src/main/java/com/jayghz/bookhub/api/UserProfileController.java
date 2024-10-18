@@ -1,6 +1,7 @@
 package com.jayghz.bookhub.api;
 
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.jayghz.bookhub.dto.UserProfileDTO;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user-profile")
+@PreAuthorize("hasRole('AUTHOR', 'CUSTOMER')")
 public class UserProfileController {
     private final UserService userService;
 
