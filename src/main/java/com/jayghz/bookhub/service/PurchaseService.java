@@ -12,6 +12,6 @@ public interface PurchaseService {
     List<PurchaseReportDTO> getPurchasesReportByDate();
 
     List<Purchase> getAllPurchases();
-    Purchase confirmPurchase(Integer purchaseId);
-    Purchase getPurchaseById(Integer id);
+    PurchaseDTO confirmPurchase(Integer purchaseId);
+    PurchaseDTO getPurchaseById(Integer id);
 }

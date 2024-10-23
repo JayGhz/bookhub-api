@@ -81,13 +81,20 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public Purchase confirmPurchase(Integer purchaseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'confirmPurchase'");
+    @Transactional
+    public PurchaseDTO confirmPurchase(Integer purchaseId) {
+        Purchase purchase = purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found"));
+        
+        purchase.setPaymentStatus(PaymentStatus.PAID);
+        
+
+        Purchase savePurchase = purchaseRepository.save(purchase);
+        return purchaseMapper.toPurchaseDTO(savePurchase);
     }
 
     @Override
-    public Purchase getPurchaseById(Integer id) {
+    public PurchaseDTO getPurchaseById(Integer id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPurchaseById'");
     }
