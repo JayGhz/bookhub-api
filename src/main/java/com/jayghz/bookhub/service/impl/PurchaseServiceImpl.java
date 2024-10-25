@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.*;
 
 import com.jayghz.bookhub.dto.PurchaseCreateDTO;
 import com.jayghz.bookhub.dto.PurchaseDTO;
+import com.jayghz.bookhub.dto.PurchaseReportDTO;
 import com.jayghz.bookhub.exception.ResourceNotFoundException;
 import com.jayghz.bookhub.mapper.PurchaseMapper;
 import com.jayghz.bookhub.model.entity.Book;
@@ -32,13 +33,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     @Transactional
-    public PurchaseDTO createPurchase(PurchaseCreateDTO purchaseCreateDTO) {
-        
-        // Convertir PurchaseCreateDTO a Purchase
-        Purchase purchase = purchaseMapper.toPurchaseCreateDTO(purchaseCreateDTO);
+    public PurchaseDTO createPurchase(PurchaseCreateDTO purchaseDTO) {
 
-        User customer = userRepository.findById(purchaseCreateDTO.getCustomerId())
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        // Convertir PurchaseCreateDTO a Purchase
+        Purchase purchase = purchaseMapper.toPurchaseEntity(purchaseDTO);
+
+        User user = userRepository.findById(purchaseDTO.getCustomerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         // Establecer la fecha de creación de la compra
         purchase.setCreatedAt(LocalDateTime.now());
@@ -47,17 +48,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         purchase.getItems().forEach(item -> {
             Book book = bookRepository.findById(item.getBook().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
             item.setBook(book);
             item.setPurchase(purchase);
         });
 
         Float total = purchase.getItems().stream()
-            .map(item -> item.getQuantity() * item.getPrice())
-            .reduce(0.0f, Float::sum);
+                .map(item -> item.getQuantity() * item.getPrice())
+                .reduce(0.0f, Float::sum);
         purchase.setTotal(total);
 
-        purchase.setCustomer(customer);
+        purchase.setUser(user);
         purchase.getItems().forEach(item -> item.setPurchase(purchase));
 
         Purchase savePurchase = purchaseRepository.save(purchase);
@@ -68,9 +69,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     @Transactional(readOnly = true)
     public List<PurchaseDTO> getPurchasesHistoryByUserId(Integer userId) {
-        return purchaseRepository.findByCustomerId(userId).stream()
-            .map(purchaseMapper::toPurchaseDTO)
-            .toList();
+        return purchaseRepository.findByUserId(userId).stream()
+                .map(purchaseMapper::toPurchaseDTO)
+                .toList();
     }
 
     @Override
@@ -80,15 +81,35 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public Purchase confirmPurchase(Integer purchaseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'confirmPurchase'");
+    @Transactional
+    public PurchaseDTO confirmPurchase(Integer purchaseId) {
+        Purchase purchase = purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found"));
+        
+        purchase.setPaymentStatus(PaymentStatus.PAID);
+        
+
+        Purchase savePurchase = purchaseRepository.save(purchase);
+        return purchaseMapper.toPurchaseDTO(savePurchase);
     }
 
     @Override
-    public Purchase getPurchaseById(Integer id) {
+    public PurchaseDTO getPurchaseById(Integer id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPurchaseById'");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PurchaseReportDTO> getPurchasesReportByDate() {
+        List<Object[]> reports = purchaseRepository.getPurchasesReportByDate();
+        // Convertir List<Object[]> a List<PurchaseReportDTO>
+        List<PurchaseReportDTO> purchaseReportDTOS = reports.stream()
+                .map(report -> new PurchaseReportDTO(
+                        ((Integer) report[0]).intValue(),
+                        (String) report[1]))
+                .toList();
+        return purchaseReportDTOS;
     }
 
 }

@@ -14,12 +14,14 @@ import java.util.List;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.*;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("admin/authors")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminAuthorController {
 
     private final AdminAuthorService adminAuthorService;

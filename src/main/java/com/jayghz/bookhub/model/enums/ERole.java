@@ -1,6 +1,7 @@
 package com.jayghz.bookhub.model.enums;
 
-public enum Role {
+public enum ERole {
     ADMIN, 
-    USER
+    CUSTOMER,
+    AUTHOR
 }
